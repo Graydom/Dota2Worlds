@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<title>Dota 2 Worlds</title>
+		<style>
+			h1
+			{
+				text-align: justify;
+			}
+
+			.tile
+			{
+				margin: 5px;
+				padding: 10px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			}
+		</style>
+	</head>
+	<body>
+		<div class = "tile" id = "teamContainer">
+			<h1>Teams</h1>
+		</div>
+		<input type = "button" onclick = "displayTeam(createTeam())" value = "Create Team">
+
+	</body>
+
+	<script type="text/javascript">
+		var teamNames = ["Zack", "Brian", "Nicole", "Gabriel", "Colby", "Tin", "Ryan", "Deven", "Brooklyn", "David", "Bethany", "Adam", "Kamalei", "Emma", "Dallin Andrew", "Tyson", "Tate", "Steven", "Greg", "Shem", "Devon", "Nicholas", "Teresa", "Clancy", "Mathem", "Wichael", "Eric", "Chris", "Rebecca", "Nikko", "Nicole", "Sariah", "Tomas", "Holly", "Noah", "Amanda", "Benjamin", "Abby", "Hannah", "John", "Emily", "Amaihah", "Kelsey", "Jenna", "Allyson", "Emma", "Courtney", "Alex", "Caren"];
+		var teams = [];
+
+		function team(name, skill)
+		{
+			this.name = name;
+			this.skill = skill;
+			this.streak = 0;
+
+			this.winGame = function()
+			{
+				this.streak = this.streak + 1;
+			}
+
+			this.loseGame = function()
+			{
+				this.streak = this.streak / 2;
+			}
+		}
+
+		function playGame(t1, t2)
+		{
+			var t1Wins, t2Wins;
+
+			if(t1.skill > t2.skill)
+				t1Wins = t1Wins + 1;
+			else
+				t2Wins = t2Wins + 1;
+
+			if(t1.streak > t2.streak)
+				t1Wins = t1Wins + 1;
+			else
+				t2Wins = t2Wins + 1;
+
+			if(t1Wins >=2)
+			{
+				t1.winGame();
+				t2.loseGame();
+			}
+			else if(t2Wins >= 2)
+			{
+				t2.winGame();
+				t1.loseGame();
+			}
+
+			if(t1.skill + t1.streak > t2.skill + t2.streak)
+			{
+				t1.winGame();
+				t2.loseGame();
+				return t1;
+			}
+			else
+			{
+				t2.winGame();
+				t1.loseGame();
+				return t2;
+			}
+		}
+
+		function createTeam()
+		{
+			var t = new team(teamNames[Math.floor(Math.random() * teamNames.length)], Math.floor(normalRandom(100,0)));
+			teams.push(t);
+			return t;
+		}
+
+		function displayTeam(team)
+		{
+			var teamBox = document.createElement('div');
+			teamBox.className = "tile";
+			teamBox.innerHTML = "Team Name: " + team.name + " | Team Skill: " + team.skill;
+			document.getElementById("teamContainer").appendChild(teamBox);
+
+		}
+
+		function normalRandom(stdDev, mean)
+		{
+			return Math.random() * stdDev + mean;
+		}
+
+	</script>
+</html>
